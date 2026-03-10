@@ -1,15 +1,39 @@
 package main
 
 import (
+	"context"
 	"fmt"
-	"study/feature1"
-	"study/feature2"
 	simpleconnection "study/feature_postgres/simple_connection"
+	simplesql "study/feature_postgres/simple_sql"
 )
 
 func main() {
-	fmt.Println("Hello, Git!")
-	feature1.Feature1()
-	feature2.Feature2()
-	simpleconnection.CheckConnection()
+	ctx := context.Background()
+	conn, err := simpleconnection.CreateConnection(ctx)
+	if err != nil {
+		panic(err)
+	}
+	if err := simplesql.CrateTable(ctx, conn); err != nil {
+		panic(err)
+	}
+	/*if err := simplesql.InsertRow(ctx,
+		conn,
+		"Обед2",
+		"Покушать надо",
+		false,
+		time.Now(),
+	); err != nil {
+		panic(err)
+	}
+	*/
+
+	if err := simplesql.UpdateRow(ctx, conn); err != nil {
+		panic(err)
+	}
+
+	/*if err := simplesql.DeleteRow(ctx, conn); err != nil {
+		panic(err)
+	}
+	*/
+	fmt.Println("succeed")
 }
