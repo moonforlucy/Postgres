@@ -5,6 +5,7 @@ import (
 	"fmt"
 	simpleconnection "study/feature_postgres/simple_connection"
 	simplesql "study/feature_postgres/simple_sql"
+	"time"
 
 	"github.com/k0kubun/pp"
 )
@@ -40,6 +41,19 @@ func main() {
 	tasks, err := simplesql.SelectRow(ctx, conn)
 	if err != nil {
 		panic(err)
+	}
+	for _, task := range tasks {
+		if task.ID == 3 {
+			task.Title = "Покормить кошку"
+			task.Description = "Отсыпать кошке 30 грамм корма"
+			task.Completed = true
+			now := time.Now()
+			task.CompletedAt = &now
+			if err := simplesql.UpdateTask(ctx, conn, task); err != nil {
+				panic(err)
+			}
+			return
+		}
 	}
 	pp.Println(tasks)
 	fmt.Println("succeed")
