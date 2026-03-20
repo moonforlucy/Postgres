@@ -1,0 +1,1 @@
+ALTER TABLE users ADD COLUMN yourself VARCHAR(200);
