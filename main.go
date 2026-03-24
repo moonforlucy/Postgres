@@ -4,41 +4,42 @@ import (
 	"context"
 	"fmt"
 	simpleconnection "study/feature_postgres/simple_connection"
-	simplesql "study/feature_postgres/simple_sql"
+	Simplesql "study/feature_postgres/simple_sql"
 	"time"
 
 	"github.com/k0kubun/pp"
 )
 
 func main() {
+
 	ctx := context.Background()
 	conn, err := simpleconnection.CreateConnection(ctx)
 	if err != nil {
 		panic(err)
 	}
-	if err := simplesql.CrateTable(ctx, conn); err != nil {
+	if err := Simplesql.CrateTable(ctx, conn); err != nil {
 		panic(err)
 	}
-	/*
-		if err := simplesql.InsertRow(ctx,
-			conn,
-			"Прогулка с собакой",
-			"Прогуляться с собакой после работы",
-			false,
-			time.Now(),
-		); err != nil {
-			panic(err)
-		}
-	*/
-	/*if err := simplesql.UpdateRow(ctx, conn); err != nil {
+
+	/*if err := Simplesql.InsertRow(ctx,
+		conn,
+		"Прогулка с собакой",
+		"Прогуляться с собакой после работы",
+		false,
+		time.Now(),
+	); err != nil {
+		panic(err)
+	}
+
+	if err := Simplesql.UpdateTask(ctx, conn); err != nil {
+		panic(err)
+	}
+
+	if err := Simplesql.DeleteRow(ctx, conn); err != nil {
 		panic(err)
 	}
 	*/
-	/*if err := simplesql.DeleteRow(ctx, conn); err != nil {
-		panic(err)
-	}
-	*/
-	tasks, err := simplesql.SelectRow(ctx, conn)
+	tasks, err := Simplesql.SelectRow(ctx, conn)
 	if err != nil {
 		panic(err)
 	}
@@ -49,7 +50,7 @@ func main() {
 			task.Completed = true
 			now := time.Now()
 			task.CompletedAt = &now
-			if err := simplesql.UpdateTask(ctx, conn, task); err != nil {
+			if err := Simplesql.UpdateTask(ctx, conn, task); err != nil {
 				panic(err)
 			}
 			return
@@ -57,4 +58,5 @@ func main() {
 	}
 	pp.Println(tasks)
 	fmt.Println("succeed")
+
 }
