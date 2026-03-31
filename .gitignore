@@ -1,1 +1,14 @@
 .env
+# PostgreSQL данные
+out/pgdata/
+pgdata/
+*.pid
+
+# Docker volumes
+volumes/
+
+# Логи
+*.log
+
+# Временные файлы
+*.tmp
